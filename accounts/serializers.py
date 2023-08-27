@@ -19,6 +19,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             "email": {"validators": (clean_email,)},
         }
     
+    
+    def create(self, validated_data):
+        del validated_data["password2"]
+        del validated_data["is_active"]
+        del validated_data["is_admin"]
+        return User.objects.create_user(**validated_data)
+
+
     def validate_username(self, value):
         if value=="root":
             raise serializers.ValidationError("username cant be `root`")
@@ -28,5 +36,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def validate(self,data):
         if data["password"] != data["password2"]:
             raise serializers.ValidationError("passwords must match")
+        
+        if User.objects.filter(email=data["email"]):
+            raise serializers.ValidationError("this email is already taken.")
+
         return data
     
