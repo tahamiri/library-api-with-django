@@ -23,7 +23,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         del validated_data["password2"]
         del validated_data["is_active"]
-        del validated_data["is_admin"]
+        del validated_data["password2"]
         return User.objects.create_user(**validated_data)
 
 
@@ -41,4 +41,13 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("this email is already taken.")
 
         return data
+    
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    
+
+    class Meta:
+        model = User
+        fields = "__all__"
+    
     
