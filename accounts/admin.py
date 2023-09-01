@@ -10,4 +10,4 @@ class UserAdmin(admin.ModelAdmin):
 
 
 admin.site.unregister(Group)
-admin.site.unregister(django_user)
+

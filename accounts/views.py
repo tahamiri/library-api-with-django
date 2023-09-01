@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from .models import User
 from .serializers import UserRegisterSerializer, UserUpdateSerializer
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 
 class UserRegister(APIView):
@@ -15,6 +16,9 @@ class UserRegister(APIView):
 
 
 class UserReview(APIView):
+
+    permission_classes = [IsAuthenticated,]
+
     def get(self, reauest):
         users = User.objects.all()
         ser_data = UserRegisterSerializer(instance=users, many=True)
@@ -22,6 +26,9 @@ class UserReview(APIView):
 
 
 class UserUpdate(APIView):
+
+    permission_classes = [IsAuthenticated,]
+
     def put(self, request, pk):
         user = User.objects.get(id=pk)
         ser_data = UserUpdateSerializer(instance=user, data=request.POST, partial=True)
@@ -32,6 +39,9 @@ class UserUpdate(APIView):
     
 
 class UserDelete(APIView):
+
+    permission_classes = [IsAuthenticated,]
+    
     def delete(self, request, pk):
         user = User.objects.get(pk=pk)
         user.delete()
