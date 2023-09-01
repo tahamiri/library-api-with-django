@@ -23,7 +23,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         del validated_data["password2"]
         del validated_data["is_active"]
-        del validated_data["password2"]
+        del validated_data["is_admin"]
         return User.objects.create_user(**validated_data)
 
 

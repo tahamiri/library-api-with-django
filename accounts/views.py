@@ -14,12 +14,14 @@ class UserRegister(APIView):
         return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class UserReview(APIView):
     def get(self, reauest):
         users = User.objects.all()
         ser_data = UserRegisterSerializer(instance=users, many=True)
         return Response(ser_data.data, status=status.HTTP_200_OK)
 
 
+class UserUpdate(APIView):
     def put(self, request, pk):
         user = User.objects.get(id=pk)
         ser_data = UserUpdateSerializer(instance=user, data=request.POST, partial=True)
@@ -29,6 +31,7 @@ class UserRegister(APIView):
         return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
+class UserDelete(APIView):
     def delete(self, request, pk):
         user = User.objects.get(pk=pk)
         user.delete()
