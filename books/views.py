@@ -7,6 +7,9 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
+from .permissions import IsOwnerOrReadOnly
+
+
 class BookReview(APIView):
     
     permission_classes = [IsAuthenticated,]
@@ -31,10 +34,11 @@ class BookCreate(APIView):
 
 class BookUpdate(APIView):
 
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated,IsOwnerOrReadOnly]
 
     def put(self, request, pk):
         book = Book.objects.get(id=pk)
+        self.check_object_permissions(request, book)
         srz_data = BookSerializer(instance=book, data=request.data, partial=True)
         if srz_data.is_valid():
             srz_data.save()
@@ -44,7 +48,7 @@ class BookUpdate(APIView):
 
 class BookDelete(APIView):
 
-    permission_classes = [IsAuthenticated,]
+    permission_classes = [IsAuthenticated,IsOwnerOrReadOnly]
 
     def delete(self, request, pk):
         book =  Book.objects.get(pk=pk)
