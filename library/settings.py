@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'accounts.apps.AccountsConfig',
     'books.apps.BooksConfig',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -129,7 +130,14 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 AUTH_USER_MODEL = 'accounts.User'
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'LIBRARY API',
+    'DESCRIPTION': 'restful api for library',
+    'VERSION': '1.0.0',
+}

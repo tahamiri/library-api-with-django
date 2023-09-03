@@ -10,8 +10,11 @@ from .permissions import IsOwnerOrReadOnly
 
 
 class BookReview(APIView, LimitOffsetPagination):
+    '''
+    list of books.
+    '''
     
-    #permission_classes = [IsAuthenticated,]
+    serializer_class = BookSerializer
     
     def get(self, request):
         books = Book.objects.all()
@@ -22,8 +25,12 @@ class BookReview(APIView, LimitOffsetPagination):
 
 
 class BookCreate(APIView):
+    '''
+    create book.
+    '''
 
     permission_classes = [IsAuthenticated,]
+    serializer_class = BookSerializer
 
     def post(self, request):
         srz_data = BookSerializer(data=request.data)
@@ -34,8 +41,12 @@ class BookCreate(APIView):
     
 
 class BookUpdate(APIView):
+    '''
+    update book.
+    '''
 
     permission_classes = [IsAuthenticated,IsOwnerOrReadOnly]
+    serializer_class = BookSerializer
 
     def put(self, request, pk):
         book = Book.objects.get(id=pk)
@@ -48,8 +59,12 @@ class BookUpdate(APIView):
     
 
 class BookDelete(APIView):
+    '''
+    delete book.
+    '''
 
     permission_classes = [IsAuthenticated,IsOwnerOrReadOnly]
+    serializer_class = BookSerializer
 
     def delete(self, request, pk):
         book =  Book.objects.get(pk=pk)
