@@ -5,19 +5,20 @@ from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-
-
+from rest_framework.pagination import LimitOffsetPagination
 from .permissions import IsOwnerOrReadOnly
 
 
-class BookReview(APIView):
+class BookReview(APIView, LimitOffsetPagination):
     
-    permission_classes = [IsAuthenticated,]
+    #permission_classes = [IsAuthenticated,]
     
     def get(self, request):
         books = Book.objects.all()
-        srz_data = BookSerializer(instance=books, many=True)
-        return Response(srz_data.data, status=status.HTTP_200_OK)
+        self.count = self.get_count(books)
+        results = self.paginate_queryset(books, request, view=self)
+        srz_data = BookSerializer(instance=results, many=True)
+        return self.get_paginated_response(srz_data.data)
 
 
 class BookCreate(APIView):
