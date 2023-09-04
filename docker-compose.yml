@@ -1,0 +1,35 @@
+version: "3.10"
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:14.1-alpine
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - main
+    ports:
+      - 5432:5432/tcp
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  app:
+    build: .
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    container_name: app
+    volumes:
+      - .:/src/
+    depends_on:
+      - postgres
+    expose:
+      - "8000"
+    networks:
+      - main
+    restart: always
+
+networks:
+  main:
+
+volumes:
+  postgres_data:
