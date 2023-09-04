@@ -2,7 +2,7 @@
 
 #### a restful api with django
 
-#### i used django rest framework with postgresql database
+#### i used django rest framework with postgresql database and dockerize everything.
 
 ## API Schema
 
