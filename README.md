@@ -2,7 +2,7 @@
 
 #### a restful api with django
 
-#### i used django rest framework with sqlite database
+#### i used django rest framework with postgresql database
 
 ## API Schema
 
