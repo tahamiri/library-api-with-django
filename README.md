@@ -10,9 +10,5 @@
 
 ## How to setup
 ```
-pip install -r requirements.txt
-```
-
-```
-python manage.py runserver
+docker-compose up -d
 ```
